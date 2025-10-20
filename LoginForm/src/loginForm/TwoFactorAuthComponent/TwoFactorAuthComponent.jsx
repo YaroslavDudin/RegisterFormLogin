@@ -159,7 +159,6 @@ function TwoFactorAuthComponent({ userId, onSuccess }) {
         </>
       )}
 
-      {/* скрытая кнопка для триггера подтверждения (если нужно) */}
       <Button className="hidden-submit" onClick={handleSubmit} aria-hidden="true" />
     </div>
   );
