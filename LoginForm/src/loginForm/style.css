@@ -1,101 +1,129 @@
+/* Импорт шрифта "Unbounded" с внешнего сервера Adobe Typekit */
 @import url("https://use.typekit.net/iiv7cfd.css");
 
+/* --- Переменные CSS для темы формы --- */
 :root {
+    /* Основной цвет фона формы */
     --form-background-color: #fff;
+    /* Цвет основного текста */
     --form-text-color: #222;
+    /* Цвет текста для подписей (label) */
     --label-color: #555;
+    /* Цвет текста внутри инпутов */
     --input-text-color: #222;
+    /* Цвет фона кнопок */
     --button-background-color: #217bf4;
+    /* Цвет текста кнопок */
     --button-color: #fff;
+    /* Основной фирменный цвет */
     --main-color: #217bf4;
+    /* Цвет при наведении на элементы */
     --main-color-hover: #125ecb;
+    /* Цвет для кнопок переключения (toggle) */
     --toggle-button-color: #808080;
+    /* Цвет текста выбранного блока */
     --selected-block-text-color: #217bf4;
+    /* Цвет фона выбранного блока */
     --selected-block-background-color: #f5f7fa;
+    /* Цвет для текста "нет аккаунта" */
     --dont-have-account-color: #888;
 }
 
+/* --- Стили для body --- */
 body {
+    /* Светлый фон страницы */
     background: #f3f5f8;
+    /* Шрифт для всего приложения */
     font-family: "unbounded", sans-serif;
 }
 
+/* --- Сброс отступов и настройка коробочной модели --- */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Учитываем padding и border в ширине/высоте */
 }
 
+/* --- Основной контейнер формы --- */
 .login-form {
-    max-width: 400px;
-    margin: 120px auto 0;
-    background: var(--form-background-color);
-    padding: 32px 26px 32px 26px;
-    border-radius: 12px;
-    box-shadow: 0 3px 24px rgba(0,0,0,0.08);
+    max-width: 400px; /* Максимальная ширина */
+    margin: 120px auto 0; /* Центрирование с отступом сверху */
+    background: var(--form-background-color); /* Фоновый цвет */
+    padding: 32px 26px; /* Внутренние отступы */
+    border-radius: 12px; /* Скругление углов */
+    box-shadow: 0 3px 24px rgba(0,0,0,0.08); /* Тень */
     display: flex;
     flex-direction: column;
     align-items: center;
-    text-align: center;
+    text-align: center; /* Центрирование текста */
 }
 
+/* Заголовок формы */
 .login-form h2 {
     color: var(--form-text-color);
     font-weight: 600;
     font-size: 22px;
-    margin-bottom: 24px;
+    margin-bottom: 24px; /* Отступ снизу */
 }
 
+/* Контейнер для каждого поля ввода */
 .input-container {
-    width: 95%;
-    margin-bottom: 15px;
+    width: 95%; /* Почти вся ширина */
+    margin-bottom: 15px; /* Отступ снизу */
     text-align: left;
-    font-weight: bolder;
+    font-weight: bolder; /* Жирный шрифт */
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Вертикальный стэк */
 }
 
+/* Метки (label) скрываем */
 .input-container label {
     display: none;
 }
 
+/* Обертка для input для позиционирования и элементов внутри */
 .input-wrapper {
     position: relative;
     width: 100%;
 }
 
+/* Стили для input (в форме и по всему приложению) */
 .input-container input,
 input {
     width: 100%;
-    padding: 10px 14px 10px 0.5rem;
+    padding: 10px 14px 10px 0.5rem; /* Отступы, слева меньше для стилизованных иконок */
     font-size: 16px;
     color: var(--input-text-color);
     border: 1.5px solid #d6e1ef;
     border-radius: 8px;
     background-color: #fafcff;
     outline: none;
-    transition: border-color 0.3s ease, background-color 0.3s ease;
-    padding-right: 2rem; /* для иконки toggle */
+    transition: border-color 0.3s ease, background-color 0.3s ease; /* Плавное изменение при наведении и фокусе */
+    padding-right: 2rem; /* Оставляем место справа для иконок (например, глазика) */
     box-sizing: border-box;
 }
 
+/* Цвет текста плейсхолдера */
 .input-container input::placeholder {
     color: #b4bed2;
     font-weight: 500;
 }
 
+/* Стили при фокусе на поле */
 .input-container input:focus {
-    border-color: var(--main-color);
+    border-color: var(--main-color); /* Цвет бордера при фокусе */
     background-color: #fff;
 }
 
+/* Ошибки формы — красный текст маленьким шрифтом */
 .error-message {
     color: #e54242;
     font-size: 13px;
-    padding: 7px 0 0 0;
+    padding: 7px 0 0 0; /* Отступ сверху */
     text-align: left;
 }
 
+/* Кнопка — основной стиль */
 .button {
     width: 100%;
     min-height: 45px;
@@ -113,17 +141,20 @@ input {
     box-shadow: none;
 }
 
+/* Стили для отключенной кнопки */
 .button:disabled {
     background-color: #e8ebef;
     color: #aaa;
     cursor: not-allowed;
 }
 
+/* Ховер эффект для активной кнопки */
 .button:hover:not(:disabled) {
     background-color: var(--main-color-hover);
     color: #fff;
 }
 
+/* Ссылки в форме */
 .login-form a {
     margin-top: 18px;
     font-size: 14px;
@@ -134,33 +165,15 @@ input {
     display: block;
 }
 
+/* Ховер эффект для ссылок */
 .login-form a:hover {
     color: var(--main-color-hover);
     text-decoration: underline;
 }
 
-.dont-have-account {
-    color: var(--dont-have-account-color);
-    font-size: 13px;
-    margin-top: 13px;
-}
 
-.toggle-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0 18px 0;
-    font-size: 13px;
-    border-radius: 26.5px;
-    border: 0.5px solid #e8ebef;
-    width: 60%;
-    height: 40px;
-    font-family: "unbounded", sans-serif;
-    font-weight: 600;
-    background-color: #f6f8fb;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
 
+/* Кнопки внутри переключателя */
 .toggle-button button {
     background: none;
     border: none;
@@ -171,11 +184,13 @@ input {
     padding: 7px 15px;
 }
 
+/* Стиль для выбранного пункта */
 .toggle-button .selected {
     color: var(--main-color);
     font-weight: 700;
 }
 
+/* Абсолютно позиционированный блок с выделенным фоном */
 .selected-block {
     display: flex;
     position: absolute;
@@ -184,6 +199,7 @@ input {
     transition: background-color 0.6s ease, color 0.6s ease;
 }
 
+/* Тоггл для пароля (иконка глаз) */
 .password-toggle {
     cursor: pointer;
     color: var(--main-color);
@@ -192,6 +208,7 @@ input {
     font-size: 16px;
 }
 
+/* --- Адаптивность для ширины <= 768px --- */
 @media (max-width: 768px) {
     .login-form {
         width: 96%;
@@ -215,11 +232,13 @@ input {
     }
 }
 
+/* Специфичный стиль для полей типа password */
 input[type="password"] {
     font-size: 14px;
     font-family: "unbounded", sans-serif;
 }
 
+/* Класс для иконки переключения видимости пароля */
 .toggle-icon {
     position: absolute;
     top: 60%;

@@ -6,164 +6,188 @@ import { BiHide, BiShow } from "react-icons/bi";
 import './style.css';
 
 function LoginForm() {
-    const [selectedOption, setSelectedOption] = useState('Почта');
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordRepeat, setPasswordRepeat] = useState('');
-    const [isPasswordVisible, setPasswordVisibility] = useState(false);
-    const [errors, setErrors] = useState({});
-    const [loading, setLoading] = useState(false);
-    const [showRegisterForm, setShowRegisterForm] = useState(false);
-    const [isTwoFactor, setIsTwoFactor] = useState(false);
+  // Выбранный способ входа (например, "Почта")
+  const [selectedOption, setSelectedOption] = useState('Почта');
+  // Состояния для полей формы
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordRepeat, setPasswordRepeat] = useState('');
+  // Управление видимостью пароля (показать/скрыть)
+  const [isPasswordVisible, setPasswordVisibility] = useState(false);
+  // Состояния ошибок для валидации
+  const [errors, setErrors] = useState({});
+  // Флаг загрузки для блокировки кнопок во время запроса
+  const [loading, setLoading] = useState(false);
+  // Показывать ли форму регистрации (false - вход)
+  const [showRegisterForm, setShowRegisterForm] = useState(false);
+  // Флаг для запуска двухфакторной аутентификации
+  const [isTwoFactor, setIsTwoFactor] = useState(false);
 
-    const validateForm = () => {
-        const newErrors = {};
-        if (!email) {
-            newErrors.email = 'Поле не может быть пустым';
-        } else if (selectedOption === 'Почта' && !/\S+@\S+\.\S\S+/.test(email)) {
-            newErrors.email = 'Введите корректный email';
-        }
+  // Валидация полей формы
+  const validateForm = () => {
+    const newErrors = {};
 
-        if (!name && showRegisterForm) {
-            newErrors.name = 'Поле не может быть пустым';
-        }
-
-        if (!password) {
-            newErrors.password = 'Поле не может быть пустым';
-        } else if (password.length < 8) {
-            newErrors.password = 'Пароль должен быть не менее 8 символов';
-        }
-
-        if (showRegisterForm && (!passwordRepeat || passwordRepeat !== password)) {
-            newErrors.passwordRepeat = 'Пароль должен совпадать';
-        }
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
-    const handleLogin = () => {
-        if (!validateForm()) return;
-        setIsTwoFactor(true);
-    };
-
-    if (isTwoFactor) {
-        return <TwoFactorAuthComponent />;
+    // Проверяем email на заполненность и корректность (если выбран способ "Почта")
+    if (!email) {
+      newErrors.email = 'Поле не может быть пустым';
+    } else if (selectedOption === 'Почта' && !/\S+@\S+\.\S\S+/.test(email)) {
+      newErrors.email = 'Введите корректный email';
     }
 
-    // чтобы не было ошибки при вводе пароля (глазик)
-    const renderField = ({ label, value, onChange, type = 'text', placeholder, name }) => {
-        const isPasswordField = type === 'password' || (type === 'text' && label && label.toLowerCase().includes('пароль'));
-        const inputType = isPasswordField ? (isPasswordVisible ? 'text' : 'password') : type;
+    // Если форма регистрации, проверяем имя
+    if (!name && showRegisterForm) {
+      newErrors.name = 'Поле не может быть пустым';
+    }
 
-        return (
-            <div className="input-container" key={name || placeholder}>
-                {label && <label>{label}</label>}
-                <div className="input-wrapper">
-                    <Input
-                        type={inputType}
-                        value={value}
-                        onChange={onChange}
-                        placeholder={placeholder}
-                        className=""
-                        required={true}
-                    />
-                    {isPasswordField && (
-                        <span
-                            className="toggle-icon"
-                            onClick={() => setPasswordVisibility(prev => !prev)}
-                            style={{ cursor: 'pointer' }}
-                        >
-                            {isPasswordVisible ? <BiHide /> : <BiShow />}
-                        </span>
-                    )}
-                </div>
-                {name && errors[name] && <span className="error-message">{errors[name]}</span>}
-                {!name && placeholder && errors[placeholder] && <span className="error-message">{errors[placeholder]}</span>}
-            </div>
-        );
-    };
+    // Пароль должен быть заполнен и минимум 8 символов
+    if (!password) {
+      newErrors.password = 'Поле не может быть пустым';
+    } else if (password.length < 8) {
+      newErrors.password = 'Пароль должен быть не менее 8 символов';
+    }
 
-    const renderLoginForm = () => (
-        <div className="login-form">
-            <h2>Вход</h2>
+    // Если регистрация, пароли должны совпадать
+    if (showRegisterForm && (!passwordRepeat || passwordRepeat !== password)) {
+      newErrors.passwordRepeat = 'Пароль должен совпадать';
+    }
 
-            {renderField({
-                label: selectedOption,
-                value: email,
-                onChange: (e) => setEmail(e.target.value),
-                type: 'text',
-                placeholder: selectedOption,
-                name: 'email'
-            })}
+    // Устанавливаем ошибки в состояние и возвращаем результат проверки
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-            {renderField({
-                label: 'Пароль',
-                value: password,
-                onChange: (e) => setPassword(e.target.value),
-                type: 'password',
-                placeholder: 'Пароль',
-                name: 'password'
-            })}
+  // Обработчик попытки входа или регистрации
+  const handleLogin = () => {
+    if (!validateForm()) return; // Если ошибки - не продолжаем
+    setIsTwoFactor(true); // Запускаем двухфакторную аутентификацию
+  };
 
-            {errors.form && <div className="error-message">{errors.form}</div>}
+  // Если двухфакторка активна - показываем отдельный компонент
+  if (isTwoFactor) {
+    return <TwoFactorAuthComponent />;
+  }
 
-            <Button onClick={handleLogin} disabled={loading} className="button">ВОЙТИ</Button>
-            <a href="#" onClick={(e) => { e.preventDefault(); setShowRegisterForm(true); }}>Зарегистрироваться</a>
-        </div>
-    );
-
-    const renderRegisterForm = () => (
-        <div className="login-form">
-            <h2>Регистрация</h2>
-
-            {renderField({
-                label: 'ФИО',
-                value: name,
-                onChange: (e) => setName(e.target.value),
-                type: 'text',
-                placeholder: 'Фамилия Имя Отчество',
-                name: 'name'
-            })}
-
-            {renderField({
-                label: 'Почта',
-                value: email,
-                onChange: (e) => setEmail(e.target.value),
-                type: 'text',
-                placeholder: 'Почта',
-                name: 'email'
-            })}
-
-            {renderField({
-                label: 'Пароль',
-                value: password,
-                onChange: (e) => setPassword(e.target.value),
-                type: 'password',
-                placeholder: 'Пароль',
-                name: 'password'
-            })}
-
-            {renderField({
-                label: 'Подтверждение пароля',
-                value: passwordRepeat,
-                onChange: (e) => setPasswordRepeat(e.target.value),
-                type: 'password',
-                placeholder: 'Подтверждение пароля',
-                name: 'passwordRepeat'
-            })}
-
-            <Button onClick={handleLogin} disabled={loading} className="button">РЕГИСТРАЦИЯ</Button>
-            <p className='dont-have-account'>Уже есть аккаунт?</p>
-            <a href="#" onClick={(e) => { e.preventDefault(); setShowRegisterForm(false); }}>Войти</a>
-        </div>
-    );
+  // Гибкая функция для рендеринга полей формы
+  const renderField = ({ label, value, onChange, type = 'text', placeholder, name }) => {
+    // Определяем, является ли поле паролем (для показа/скрытия)
+    const isPasswordField = type === 'password' || (type === 'text' && label && label.toLowerCase().includes('пароль'));
+    // Выбираем type input с учетом видимости пароля
+    const inputType = isPasswordField ? (isPasswordVisible ? 'text' : 'password') : type;
 
     return (
-        <div>
-            {showRegisterForm ? renderRegisterForm() : renderLoginForm()}
+      <div className="input-container" key={name || placeholder}>
+        {label && <label>{label}</label>}
+        <div className="input-wrapper">
+          <Input
+            type={inputType}
+            value={value}
+            onChange={onChange}
+            placeholder={placeholder}
+            className=""
+            required={true}
+          />
+          {/* Кнопка-переключатель видимости пароля с иконками */}
+          {isPasswordField && (
+            <span
+              className="toggle-icon"
+              onClick={() => setPasswordVisibility(prev => !prev)}
+              style={{ cursor: 'pointer' }}
+            >
+              {isPasswordVisible ? <BiHide /> : <BiShow />}
+            </span>
+          )}
         </div>
+        {/* Выводим ошибки для соответствующего поля */}
+        {name && errors[name] && <span className="error-message">{errors[name]}</span>}
+        {!name && placeholder && errors[placeholder] && <span className="error-message">{errors[placeholder]}</span>}
+      </div>
     );
+  };
+
+  // Рендер формы входа
+  const renderLoginForm = () => (
+    <div className="login-form">
+      <h2>Вход</h2>
+
+      {renderField({
+        label: selectedOption,
+        value: email,
+        onChange: (e) => setEmail(e.target.value),
+        type: 'text',
+        placeholder: selectedOption,
+        name: 'email'
+      })}
+
+      {renderField({
+        label: 'Пароль',
+        value: password,
+        onChange: (e) => setPassword(e.target.value),
+        type: 'password',
+        placeholder: 'Пароль',
+        name: 'password'
+      })}
+
+      {errors.form && <div className="error-message">{errors.form}</div>}
+
+      <Button onClick={handleLogin} disabled={loading} className="button">ВОЙТИ</Button>
+      <a href="#" onClick={(e) => { e.preventDefault(); setShowRegisterForm(true); }}>Зарегистрироваться</a>
+    </div>
+  );
+
+  // Рендер формы регистрации
+  const renderRegisterForm = () => (
+    <div className="login-form">
+      <h2>Регистрация</h2>
+
+      {renderField({
+        label: 'ФИО',
+        value: name,
+        onChange: (e) => setName(e.target.value),
+        type: 'text',
+        placeholder: 'Фамилия Имя Отчество',
+        name: 'name'
+      })}
+
+      {renderField({
+        label: 'Почта',
+        value: email,
+        onChange: (e) => setEmail(e.target.value),
+        type: 'text',
+        placeholder: 'Почта',
+        name: 'email'
+      })}
+
+      {renderField({
+        label: 'Пароль',
+        value: password,
+        onChange: (e) => setPassword(e.target.value),
+        type: 'password',
+        placeholder: 'Пароль',
+        name: 'password'
+      })}
+
+      {renderField({
+        label: 'Подтверждение пароля',
+        value: passwordRepeat,
+        onChange: (e) => setPasswordRepeat(e.target.value),
+        type: 'password',
+        placeholder: 'Подтверждение пароля',
+        name: 'passwordRepeat'
+      })}
+
+      <Button onClick={handleLogin} disabled={loading} className="button">РЕГИСТРАЦИЯ</Button>
+      <p className='dont-have-account'>Уже есть аккаунт?</p>
+      <a href="#" onClick={(e) => { e.preventDefault(); setShowRegisterForm(false); }}>Войти</a>
+    </div>
+  );
+
+  // Главный рендеринг: форма входа или регистрации, в зависимости от состояния
+  return (
+    <div>
+      {showRegisterForm ? renderRegisterForm() : renderLoginForm()}
+    </div>
+  );
 }
 
 export default LoginForm;
