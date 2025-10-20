@@ -40,32 +40,43 @@ body {
 }
 
 .login-form h2 {
-    color: #222;
+    color: var(--form-text-color);
     font-weight: 600;
     font-size: 22px;
     margin-bottom: 24px;
 }
 
 .input-container {
-    width: 100%;
-    margin-bottom: 16px;
+    width: 95%;
+    margin-bottom: 15px;
     text-align: left;
+    font-weight: bolder;
+    display: flex;
+    flex-direction: column;
 }
 
 .input-container label {
     display: none;
 }
 
-.input-container input {
+.input-wrapper {
+    position: relative;
     width: 100%;
-    padding: 12px 14px;
-    font-size: 15px;
+}
+
+.input-container input,
+input {
+    width: 100%;
+    padding: 10px 14px 10px 0.5rem;
+    font-size: 16px;
     color: var(--input-text-color);
     border: 1.5px solid #d6e1ef;
     border-radius: 8px;
     background-color: #fafcff;
     outline: none;
     transition: border-color 0.3s ease, background-color 0.3s ease;
+    padding-right: 2rem; /* для иконки toggle */
+    box-sizing: border-box;
 }
 
 .input-container input::placeholder {
@@ -74,7 +85,7 @@ body {
 }
 
 .input-container input:focus {
-    border-color: #217bf4;
+    border-color: var(--main-color);
     background-color: #fff;
 }
 
@@ -175,7 +186,7 @@ body {
 
 .password-toggle {
     cursor: pointer;
-    color: #217bf4;
+    color: var(--main-color);
     display: inline-block;
     margin-top: 10px;
     font-size: 16px;
@@ -208,25 +219,6 @@ input[type="password"] {
     font-size: 14px;
     font-family: "unbounded", sans-serif;
 }
-.input-container {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 16px;
-}
-
-.input-wrapper {
-    position: relative;
-    width: 100%;
-}
-
-input {
-    width: 100%;
-    padding-right: 2rem; /* Оставляем место для иконки */
-    padding-left: 0.5rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    font-size: 16px;
-}
 
 .toggle-icon {
     position: absolute;
@@ -235,12 +227,4 @@ input {
     transform: translateY(-50%);
     cursor: pointer;
     color: #888;
-}
-
-.input-container {
-    margin-bottom: 15px;
-    text-align: left;
-    font-weight: bolder;
-    width: 95%;     
-
 }
