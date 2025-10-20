@@ -140,7 +140,7 @@ function TwoFactorAuthComponent({ userId, onSuccess }) {
       ) : (
         <>
           {/* Кнопка подтвердить, активна при полном вводе и не в процессе загрузки */}
-          {code.every((c) => c !== '') && !loading && (
+          {code.every((el) => el !== '') && !loading && (
             <Button className="button" onClick={handleSubmit} disabled={loading}>
               Подтвердить
             </Button>
