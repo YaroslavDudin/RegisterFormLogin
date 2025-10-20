@@ -1,0 +1,246 @@
+@import url("https://use.typekit.net/iiv7cfd.css");
+
+:root {
+    --form-background-color: #fff;
+    --form-text-color: #222;
+    --label-color: #555;
+    --input-text-color: #222;
+    --button-background-color: #217bf4;
+    --button-color: #fff;
+    --main-color: #217bf4;
+    --main-color-hover: #125ecb;
+    --toggle-button-color: #808080;
+    --selected-block-text-color: #217bf4;
+    --selected-block-background-color: #f5f7fa;
+    --dont-have-account-color: #888;
+}
+
+body {
+    background: #f3f5f8;
+    font-family: "unbounded", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.login-form {
+    max-width: 400px;
+    margin: 120px auto 0;
+    background: var(--form-background-color);
+    padding: 32px 26px 32px 26px;
+    border-radius: 12px;
+    box-shadow: 0 3px 24px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.login-form h2 {
+    color: #222;
+    font-weight: 600;
+    font-size: 22px;
+    margin-bottom: 24px;
+}
+
+.input-container {
+    width: 100%;
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.input-container label {
+    display: none;
+}
+
+.input-container input {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    color: var(--input-text-color);
+    border: 1.5px solid #d6e1ef;
+    border-radius: 8px;
+    background-color: #fafcff;
+    outline: none;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.input-container input::placeholder {
+    color: #b4bed2;
+    font-weight: 500;
+}
+
+.input-container input:focus {
+    border-color: #217bf4;
+    background-color: #fff;
+}
+
+.error-message {
+    color: #e54242;
+    font-size: 13px;
+    padding: 7px 0 0 0;
+    text-align: left;
+}
+
+.button {
+    width: 100%;
+    min-height: 45px;
+    padding: 10px 0;
+    background-color: var(--button-background-color);
+    color: var(--button-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: "unbounded", sans-serif;
+    font-weight: 600;
+    margin: 20px 0 0 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    box-shadow: none;
+}
+
+.button:disabled {
+    background-color: #e8ebef;
+    color: #aaa;
+    cursor: not-allowed;
+}
+
+.button:hover:not(:disabled) {
+    background-color: var(--main-color-hover);
+    color: #fff;
+}
+
+.login-form a {
+    margin-top: 18px;
+    font-size: 14px;
+    color: var(--main-color);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    display: block;
+}
+
+.login-form a:hover {
+    color: var(--main-color-hover);
+    text-decoration: underline;
+}
+
+.dont-have-account {
+    color: var(--dont-have-account-color);
+    font-size: 13px;
+    margin-top: 13px;
+}
+
+.toggle-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0 18px 0;
+    font-size: 13px;
+    border-radius: 26.5px;
+    border: 0.5px solid #e8ebef;
+    width: 60%;
+    height: 40px;
+    font-family: "unbounded", sans-serif;
+    font-weight: 600;
+    background-color: #f6f8fb;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.toggle-button button {
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    outline: none;
+    color: var(--toggle-button-color);
+    padding: 7px 15px;
+}
+
+.toggle-button .selected {
+    color: var(--main-color);
+    font-weight: 700;
+}
+
+.selected-block {
+    display: flex;
+    position: absolute;
+    border-radius: 18px;
+    background-color: var(--selected-block-background-color);
+    transition: background-color 0.6s ease, color 0.6s ease;
+}
+
+.password-toggle {
+    cursor: pointer;
+    color: #217bf4;
+    display: inline-block;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+@media (max-width: 768px) {
+    .login-form {
+        width: 96%;
+        margin-top: 60px;
+        padding: 15px;
+    }
+
+    .button {
+        font-size: 15px;
+    }
+
+    .toggle-button {
+        width: 100%;
+        font-size: 13px;
+        margin: 12px 0;
+    }
+
+    .input-container input {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
+
+input[type="password"] {
+    font-size: 14px;
+    font-family: "unbounded", sans-serif;
+}
+.input-container {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+input {
+    width: 100%;
+    padding-right: 2rem; /* Оставляем место для иконки */
+    padding-left: 0.5rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 16px;
+}
+
+.toggle-icon {
+    position: absolute;
+    top: 60%;
+    right: 0.5rem;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #888;
+}
+
+.input-container {
+    margin-bottom: 15px;
+    text-align: left;
+    font-weight: bolder;
+    width: 95%;     
+
+}
